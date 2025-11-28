@@ -1,6 +1,7 @@
--- Auto-generated from schema-views-postgres.psd1 (map@62c9c93)
+-- Auto-generated from schema-views-postgres.psd1 (map@mtime:2025-11-27T15:36:13Z)
 -- engine: postgres
 -- table:  signing_keys
+
 -- Contract view for [signing_keys]
 -- Hides raw keys; exposes hex for public/private (enc).
 CREATE OR REPLACE VIEW vw_signing_keys AS
@@ -9,9 +10,9 @@ SELECT
   algo_id,
   name,
   public_key,
-  UPPER(encode(public_key,''hex''))     AS public_key_hex,
+  UPPER(encode(digest(public_key,'sha256'),'hex'))::char(64)     AS public_key_hex,
   private_key_enc,
-  UPPER(encode(private_key_enc,''hex'')) AS private_key_enc_hex,
+  UPPER(encode(digest(private_key_enc,'sha256'),'hex'))::char(64) AS private_key_enc_hex,
   kms_key_id,
   origin,
   status,

@@ -32,15 +32,59 @@ final class SigningKeysModule implements ModuleInterface
         $table = SqlIdentifier::qi($db, $this->table());
         $view  = SqlIdentifier::qi($db, self::contractView());
 
+        if ($d->isMysql()) {
+            $createViewSql = <<<'SQL'
+CREATE OR REPLACE ALGORITHM=MERGE SQL SECURITY INVOKER VIEW vw_signing_keys AS
+SELECT
+  id,
+  algo_id,
+  name,
+  public_key,
+  CAST(UPPER(SHA2(public_key, 256))      AS CHAR(64)) AS public_key_hex,
+  private_key_enc,
+  CAST(UPPER(SHA2(private_key_enc, 256)) AS CHAR(64)) AS private_key_enc_hex,
+  kms_key_id,
+  origin,
+  status,
+  scope,
+  created_by,
+  created_at,
+  activated_at,
+  retired_at,
+  notes
+FROM signing_keys;
+SQL;
+        } else {
+            $createViewSql = <<<'SQL'
+CREATE OR REPLACE VIEW vw_signing_keys AS
+SELECT
+  id,
+  algo_id,
+  name,
+  public_key,
+  UPPER(encode(digest(public_key,'sha256'),'hex'))::char(64)     AS public_key_hex,
+  private_key_enc,
+  UPPER(encode(digest(private_key_enc,'sha256'),'hex'))::char(64) AS private_key_enc_hex,
+  kms_key_id,
+  origin,
+  status,
+  scope,
+  created_by,
+  created_at,
+  activated_at,
+  retired_at,
+  notes
+FROM signing_keys;
+SQL;
+        }
+
         if (\class_exists('\\BlackCat\\Database\\Support\\DdlGuard')) {
-            (new \BlackCat\Database\Support\DdlGuard($db, $d))->applyCreateView(
-                "CREATE VIEW {$view} AS SELECT * FROM {$table}"
-            );
+            (new \BlackCat\Database\Support\DdlGuard($db, $d))->applyCreateView($createViewSql);
         } else {
             // Prefer CREATE OR REPLACE VIEW (gentle on dependencies)
-            $sql = "CREATE OR REPLACE VIEW {$view} AS SELECT * FROM {$table}";
-            $db->exec($sql);
+            $db->exec($createViewSql);
         }
+
     }
 
     public function upgrade(Database $db, SqlDialect $d, string $from): void
@@ -67,8 +111,15 @@ final class SigningKeysModule implements ModuleInterface
         $hasTable = SchemaIntrospector::hasTable($db, $d, $table);
         $hasView  = SchemaIntrospector::hasView($db, $d, $view);
 
-        // Quick index/FK check – generator injects names (case-sensitive per DB)
+        // Quick index/FK check â€“ generator injects names (case-sensitive per DB)
         $expectedIdx = [ 'idx_sk_algo_status' ];
+        if ($d->isMysql()) {
+            // Drop PG-only index naming patterns (e.g., GIN/GiST)
+            $expectedIdx = array_values(array_filter(
+                $expectedIdx,
+                static fn(string $n): bool => !str_starts_with($n, 'gin_') && !str_starts_with($n, 'gist_')
+            ));
+        }
         $expectedFk  = [ 'fk_sk_algo', 'fk_sk_kms', 'fk_sk_user' ];
 
         $haveIdx = $hasTable ? SchemaIntrospector::listIndexes($db, $d, $table)     : [];

@@ -5,20 +5,20 @@ Inventory of signing keys (local, KMS-backed, or imported).
 ## Columns
 | Column | Type | Null | Default | Description |
 | --- | --- | --- | --- | --- |
-| activated_at | TIMESTAMPTZ(6) | YES |  | Activation timestamp (UTC). |
+| activated_at | DATETIME(6) | YES |  | Activation timestamp (UTC). |
 | algo_id | BIGINT | NO |  | Signature algorithm (FK crypto_algorithms.id). |
-| created_at | TIMESTAMPTZ(6) | NO | CURRENT_TIMESTAMP(6) | Creation timestamp (UTC). |
+| created_at | DATETIME(6) | NO | CURRENT_TIMESTAMP(6) | Creation timestamp (UTC). |
 | created_by | BIGINT | YES |  | User who created/uploaded the key. |
 | id | BIGINT | NO |  | Surrogate primary key. |
 | kms_key_id | BIGINT | YES |  | Backing KMS key if stored hardware-side. |
 | name | VARCHAR(120) | NO |  | Key name / identifier. |
 | notes | TEXT | YES |  | Operational notes. |
-| origin | TEXT | NO | local | Key origin. (enum: local, kms, imported) |
-| private_key_enc | BYTEA | YES |  | Encrypted private key blob. |
-| public_key | BYTEA | NO |  | Public key bytes. |
-| retired_at |  | YES |  | Retirement timestamp (UTC). |
+| origin | ENUM('local','kms','imported') | NO | local | Key origin. (enum: local, kms, imported) |
+| private_key_enc | LONGBLOB | YES |  | Encrypted private key blob. |
+| public_key | LONGBLOB | NO |  | Public key bytes. |
+| retired_at | DATETIME(6) | YES |  | Retirement timestamp (UTC). |
 | scope | VARCHAR(120) | YES |  | Usage scope (audit, events, assets, ...). |
-| status | TEXT | NO | active | Lifecycle status. (enum: active, retired, compromised) |
+| status | ENUM('active','retired','compromised') | NO | active | Lifecycle status. (enum: active, retired, compromised) |
 
 ## Engine Details
 
@@ -67,5 +67,5 @@ Foreign keys:
 ## Views
 | View | Engine | Flags | File |
 | --- | --- | --- | --- |
-| vw_signing_keys | mysql | algorithm=MERGE, security=INVOKER | [packages\signing-keys\schema\040_views.mysql.sql](https://github.com/blackcatacademy/blackcat-database/packages/signing-keys/schema/040_views.mysql.sql) |
-| vw_signing_keys | postgres |  | [packages\signing-keys\schema\040_views.postgres.sql](https://github.com/blackcatacademy/blackcat-database/packages/signing-keys/schema/040_views.postgres.sql) |
+| vw_signing_keys | mysql | algorithm=MERGE, security=INVOKER | [schema\040_views.mysql.sql](schema\040_views.mysql.sql) |
+| vw_signing_keys | postgres |  | [schema\040_views.postgres.sql](schema\040_views.postgres.sql) |

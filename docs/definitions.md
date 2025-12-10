@@ -5,20 +5,20 @@ Inventory of signing keys (local, KMS-backed, or imported).
 ## Columns
 | Column | Type | Null | Default | Description |
 | --- | --- | --- | --- | --- |
-| activated_at | mysql: DATETIME(6) / postgres: TIMESTAMPTZ(6) | YES |  | Activation timestamp (UTC). |
-| algo_id | BIGINT | NO |  | Signature algorithm (FK crypto_algorithms.id). |
 | created_at | mysql: DATETIME(6) / postgres: TIMESTAMPTZ(6) | NO | CURRENT_TIMESTAMP(6) | Creation timestamp (UTC). |
-| created_by | BIGINT | YES |  | User who created/uploaded the key. |
-| id | BIGINT | NO |  | Surrogate primary key. |
-| kms_key_id | BIGINT | YES |  | Backing KMS key if stored hardware-side. |
-| name | VARCHAR(120) | NO |  | Key name / identifier. |
-| notes | TEXT | YES |  | Operational notes. |
-| origin | mysql: ENUM('local','kms','imported') / postgres: TEXT | NO | local | Key origin. (enum: local, kms, imported) |
-| private_key_enc | mysql: LONGBLOB / postgres: BYTEA | YES |  | Encrypted private key blob. |
 | public_key | mysql: LONGBLOB / postgres: BYTEA | NO |  | Public key bytes. |
-| retired_at | DATETIME(6) | YES |  | Retirement timestamp (UTC). |
 | scope | VARCHAR(120) | YES |  | Usage scope (audit, events, assets, ...). |
+| kms_key_id | BIGINT | YES |  | Backing KMS key if stored hardware-side. |
+| private_key_enc | mysql: LONGBLOB / postgres: BYTEA | YES |  | Encrypted private key blob. |
+| notes | TEXT | YES |  | Operational notes. |
 | status | mysql: ENUM('active','retired','compromised') / postgres: TEXT | NO | active | Lifecycle status. (enum: active, retired, compromised) |
+| created_by | BIGINT | YES |  | User who created/uploaded the key. |
+| activated_at | mysql: DATETIME(6) / postgres: TIMESTAMPTZ(6) | YES |  | Activation timestamp (UTC). |
+| name | VARCHAR(120) | NO |  | Key name / identifier. |
+| origin | mysql: ENUM('local','kms','imported') / postgres: TEXT | NO | local | Key origin. (enum: local, kms, imported) |
+| id | BIGINT | NO |  | Surrogate primary key. |
+| algo_id | BIGINT | NO |  | Signature algorithm (FK crypto_algorithms.id). |
+| retired_at | DATETIME(6) | YES |  | Retirement timestamp (UTC). |
 
 ## Engine Details
 

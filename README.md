@@ -107,8 +107,8 @@ _No engine differences detected._
 
 ## Constraints Snapshot
 - `created_at` – default=CURRENT_TIMESTAMP(6)
-- `status` – default=active, enum
 - `origin` – default=local, enum
+- `status` – default=active, enum
 
 ## Schema Files
 | File | Engine |

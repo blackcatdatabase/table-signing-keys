@@ -41,11 +41,11 @@ final class Criteria extends BaseCriteria
         return [ 'name', 'scope', 'notes' ];
     }
 
-/** Columns allowed in ORDER BY (falls back to filterable() when empty). */
-protected function sortable(): array
-{
-    return [ 'id', 'algo_id', 'name', 'kms_key_id', 'origin', 'status', 'scope', 'created_by', 'created_at', 'activated_at', 'retired_at', 'notes' ];
-}
+    /** Columns allowed in ORDER BY (falls back to filterable() when empty). */
+    protected function sortable(): array
+    {
+        return [ 'id', 'algo_id', 'name', 'kms_key_id', 'origin', 'status', 'scope', 'created_by', 'created_at', 'activated_at', 'retired_at', 'notes' ];
+    }
 
     /**
      * Whitelist of joinable entities (for safe ->join() usage):

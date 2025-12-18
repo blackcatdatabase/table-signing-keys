@@ -8,7 +8,7 @@ final class Definitions {
     public static function table(): string { return 'signing_keys'; }
     public static function contractView(): string { return 'vw_signing_keys'; }
     /** @return string[] */
-    public static function columns(): array { return [ 'id', 'algo_id', 'name', 'public_key', 'private_key_enc', 'kms_key_id', 'origin', 'status', 'scope', 'created_by', 'created_at', 'activated_at', 'retired_at', 'notes' ]; }
+    public static function columns(): array { return [ 'id', 'algo_id', 'name', 'public_key', 'private_key_enc', 'private_key_enc_key_version', 'kms_key_id', 'origin', 'status', 'scope', 'created_by', 'created_at', 'activated_at', 'retired_at', 'notes' ]; }
 
     /** @var array<string,array<int,string>> */
     public const STATUS_TRANSITIONS = [];

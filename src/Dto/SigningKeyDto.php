@@ -15,6 +15,7 @@ final class SigningKeyDto implements \JsonSerializable {
         #[\SensitiveParameter] public readonly string $name,
         public readonly string $publicKey,
         public readonly ?string $privateKeyEnc,
+        public readonly ?string $privateKeyEncKeyVersion,
         public readonly ?int $kmsKeyId,
         public readonly string $origin,
         public readonly string $status,

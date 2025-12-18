@@ -3,22 +3,23 @@
 Inventory of signing keys (local, KMS-backed, or imported).
 
 ## Columns
-| Column | Type | Null | Default | Description |
-| --- | --- | --- | --- | --- |
-| id | BIGINT | NO |  | Surrogate primary key. |
-| algo_id | BIGINT | NO |  | Signature algorithm (FK crypto_algorithms.id). |
-| name | VARCHAR(120) | NO |  | Key name / identifier. |
-| public_key | mysql: LONGBLOB / postgres: BYTEA | NO |  | Public key bytes. |
-| private_key_enc | mysql: LONGBLOB / postgres: BYTEA | YES |  | Encrypted private key blob. |
-| kms_key_id | BIGINT | YES |  | Backing KMS key if stored hardware-side. |
-| origin | mysql: ENUM('local','kms','imported') / postgres: TEXT | NO | local | Key origin. (enum: local, kms, imported) |
-| status | mysql: ENUM('active','retired','compromised') / postgres: TEXT | NO | active | Lifecycle status. (enum: active, retired, compromised) |
-| scope | VARCHAR(120) | YES |  | Usage scope (audit, events, assets, ...). |
-| created_by | BIGINT | YES |  | User who created/uploaded the key. |
-| created_at | mysql: DATETIME(6) / postgres: TIMESTAMPTZ(6) | NO | CURRENT_TIMESTAMP(6) | Creation timestamp (UTC). |
-| activated_at | mysql: DATETIME(6) / postgres: TIMESTAMPTZ(6) | YES |  | Activation timestamp (UTC). |
-| retired_at | DATETIME(6) | YES |  | Retirement timestamp (UTC). |
-| notes | TEXT | YES |  | Operational notes. |
+| Column | Type | Null | Default | Description | Crypto |
+| --- | --- | --- | --- | --- | --- |
+| id | BIGINT | NO |  | Surrogate primary key. |  |
+| algo_id | BIGINT | NO |  | Signature algorithm (FK crypto_algorithms.id). |  |
+| name | VARCHAR(120) | NO |  | Key name / identifier. |  |
+| public_key | mysql: LONGBLOB / postgres: BYTEA | NO |  | Public key bytes. |  |
+| private_key_enc | mysql: LONGBLOB / postgres: BYTEA | YES |  | Encrypted private key blob. | `encrypt`<br/>ctx: `db.vault.signing_keys.private_key_enc`<br/>kv: `private_key_enc_key_version` |
+| private_key_enc_key_version | VARCHAR(64) | YES |  | Key version for private_key_enc. | key version for: `private_key_enc` |
+| kms_key_id | BIGINT | YES |  | Backing KMS key if stored hardware-side. |  |
+| origin | mysql: ENUM('local','kms','imported') / postgres: TEXT | NO | local | Key origin. (enum: local, kms, imported) |  |
+| status | mysql: ENUM('active','retired','compromised') / postgres: TEXT | NO | active | Lifecycle status. (enum: active, retired, compromised) |  |
+| scope | VARCHAR(120) | YES |  | Usage scope (audit, events, assets, ...). |  |
+| created_by | BIGINT | YES |  | User who created/uploaded the key. |  |
+| created_at | mysql: DATETIME(6) / postgres: TIMESTAMPTZ(6) | NO | CURRENT_TIMESTAMP(6) | Creation timestamp (UTC). |  |
+| activated_at | mysql: DATETIME(6) / postgres: TIMESTAMPTZ(6) | YES |  | Activation timestamp (UTC). |  |
+| retired_at | mysql: DATETIME(6) | YES |  | Retirement timestamp (UTC). |  |
+| notes | TEXT | YES |  | Operational notes. |  |
 
 ## Engine Details
 

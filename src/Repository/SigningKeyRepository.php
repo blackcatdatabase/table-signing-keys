@@ -151,7 +151,7 @@ use OrderByTools, PkTools, RepositoryHelpers;
 
         $keys = $this->resolveUpsertKeys();
 
-        $updCols = [ 'algo_id', 'public_key', 'private_key_enc', 'kms_key_id', 'origin', 'status', 'scope', 'activated_at', 'retired_at', 'notes' ];
+        $updCols = [ 'algo_id', 'public_key', 'private_key_enc', 'private_key_enc_key_version', 'kms_key_id', 'origin', 'status', 'scope', 'activated_at', 'retired_at', 'notes' ];
         $updCols = array_values(array_diff($updCols, array_merge($this->pkColumns(Definitions::class), $keys)));
 
         // Revive policy
@@ -222,7 +222,7 @@ use OrderByTools, PkTools, RepositoryHelpers;
         $helperKeys = $this->resolveUpsertKeys();
         if ($helperKeys && class_exists(\BlackCat\Database\Support\BulkUpsertHelper::class)) {
           $bulk = new \BlackCat\Database\Support\BulkUpsertHelper($this->db, \BlackCat\Database\Packages\SigningKeys\Definitions::class);
-          $bulk->upsertMany($rows, $helperKeys, [ 'algo_id', 'public_key', 'private_key_enc', 'kms_key_id', 'origin', 'status', 'scope', 'activated_at', 'retired_at', 'notes' ]);
+          $bulk->upsertMany($rows, $helperKeys, [ 'algo_id', 'public_key', 'private_key_enc', 'private_key_enc_key_version', 'kms_key_id', 'origin', 'status', 'scope', 'activated_at', 'retired_at', 'notes' ]);
           return count($rows);
         }
 
@@ -253,7 +253,7 @@ use OrderByTools, PkTools, RepositoryHelpers;
           if (!$rows) { return 0; }
 
           /** @var list<string> $updCols */
-          $updCols = [ 'algo_id', 'public_key', 'private_key_enc', 'kms_key_id', 'origin', 'status', 'scope', 'activated_at', 'retired_at', 'notes' ];
+          $updCols = [ 'algo_id', 'public_key', 'private_key_enc', 'private_key_enc_key_version', 'kms_key_id', 'origin', 'status', 'scope', 'activated_at', 'retired_at', 'notes' ];
           if ($updCols && $soft && !in_array($soft, $updCols, true)) { $updCols[] = $soft; }
 
           $bulk = new \BlackCat\Database\Support\BulkUpsertHelper($this->db, \BlackCat\Database\Packages\SigningKeys\Definitions::class);

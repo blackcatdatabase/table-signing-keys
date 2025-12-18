@@ -252,6 +252,7 @@ use OrderByTools, PkTools, RepositoryHelpers;
           ));
           if (!$rows) { return 0; }
 
+          /** @var list<string> $updCols */
           $updCols = [ 'algo_id', 'public_key', 'private_key_enc', 'kms_key_id', 'origin', 'status', 'scope', 'activated_at', 'retired_at', 'notes' ];
           if ($updCols && $soft && !in_array($soft, $updCols, true)) { $updCols[] = $soft; }
 

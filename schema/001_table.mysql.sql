@@ -1,4 +1,4 @@
--- Auto-generated from schema-map-mysql.yaml (map@sha1:09DF9CA612D1573E058190CC207FA257C05AEC1F)
+-- Auto-generated from schema-map-mysql.yaml (map@sha1:0D716345C0228A9FD8972A3D31574000D05317DB)
 -- engine: mysql
 -- table:  signing_keys
 
@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS signing_keys (
   name VARCHAR(120) NOT NULL,
   public_key LONGBLOB NOT NULL,
   private_key_enc LONGBLOB NULL,
+  private_key_enc_key_version VARCHAR(64) NULL,
   kms_key_id BIGINT UNSIGNED NULL,
   origin ENUM('local','kms','imported') NOT NULL DEFAULT 'local',
   status ENUM('active','retired','compromised') NOT NULL DEFAULT 'active',

@@ -32,20 +32,20 @@ final class Criteria extends BaseCriteria
     /** Columns that are safe to use inside WHERE filters. */
     protected function filterable(): array
     {
-        return [ 'id', 'algo_id', 'name', 'public_key', 'private_key_enc', 'kms_key_id', 'origin', 'status', 'scope', 'created_by', 'created_at', 'activated_at', 'retired_at', 'notes' ];
+        return [ 'id', 'algo_id', 'name', 'public_key', 'private_key_enc', 'private_key_enc_key_version', 'kms_key_id', 'origin', 'status', 'scope', 'created_by', 'created_at', 'activated_at', 'retired_at', 'notes' ];
     }
 
     /** Columns used for full-text LIKE/ILIKE searches. */
     protected function searchable(): array
     {
-        return [ 'name', 'scope', 'notes' ];
+        return [ 'name', 'private_key_enc_key_version', 'scope', 'notes' ];
     }
 
-/** Columns allowed in ORDER BY (falls back to filterable() when empty). */
-protected function sortable(): array
-{
-    return [ 'id', 'algo_id', 'name', 'kms_key_id', 'origin', 'status', 'scope', 'created_by', 'created_at', 'activated_at', 'retired_at', 'notes' ];
-}
+    /** Columns allowed in ORDER BY (falls back to filterable() when empty). */
+    protected function sortable(): array
+    {
+        return [ 'id', 'algo_id', 'name', 'private_key_enc_key_version', 'kms_key_id', 'origin', 'status', 'scope', 'created_by', 'created_at', 'activated_at', 'retired_at', 'notes' ];
+    }
 
     /**
      * Whitelist of joinable entities (for safe ->join() usage):

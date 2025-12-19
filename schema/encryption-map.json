@@ -1,0 +1,56 @@
+{
+  "tables": {
+    "signing_keys": {
+      "columns": {
+        "activated_at": {
+          "strategy": "passthrough"
+        },
+        "algo_id": {
+          "strategy": "passthrough"
+        },
+        "created_at": {
+          "strategy": "passthrough"
+        },
+        "created_by": {
+          "strategy": "passthrough"
+        },
+        "id": {
+          "strategy": "passthrough"
+        },
+        "kms_key_id": {
+          "strategy": "passthrough"
+        },
+        "name": {
+          "strategy": "passthrough"
+        },
+        "notes": {
+          "strategy": "passthrough"
+        },
+        "origin": {
+          "strategy": "passthrough"
+        },
+        "private_key_enc": {
+          "context": "db.vault.signing_keys.private_key_enc",
+          "key_version_column": "private_key_enc_key_version",
+          "strategy": "encrypt",
+          "write_key_version": true
+        },
+        "private_key_enc_key_version": {
+          "strategy": "passthrough"
+        },
+        "public_key": {
+          "strategy": "passthrough"
+        },
+        "retired_at": {
+          "strategy": "passthrough"
+        },
+        "scope": {
+          "strategy": "passthrough"
+        },
+        "status": {
+          "strategy": "passthrough"
+        }
+      }
+    }
+  }
+}

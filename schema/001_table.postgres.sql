@@ -1,4 +1,4 @@
--- Auto-generated from schema-map-postgres.yaml (map@sha1:6D9B52237D942B2B3855FD0F5500331B935A7C62)
+-- Auto-generated from schema-map-postgres.yaml (map@sha1:8C4F2BC1C4D22EE71E27B5A7968C71E32D8D884D)
 -- engine: postgres
 -- table:  signing_keys
 
@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS signing_keys (
   name VARCHAR(120) NOT NULL,
   public_key BYTEA NOT NULL,
   private_key_enc BYTEA NULL,                -- when stored encrypted locally
+  private_key_enc_key_version VARCHAR(64) NULL,
   kms_key_id BIGINT NULL,                    -- when stored in KMS/HSM
   origin TEXT NOT NULL DEFAULT 'local',      -- 'local' | 'kms' | 'imported'
   status TEXT NOT NULL DEFAULT 'active',     -- 'active' | 'retired' | 'compromised'
